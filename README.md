@@ -1,28 +1,36 @@
-# 🌍 Wanderlust — Airbnb Clone
+# 🏡 StayEase — Airbnb Clone
 
-A full-stack web application inspired by Airbnb where users can explore property listings, create their own listings, leave reviews, and authenticate securely using both traditional login and Google OAuth.
+A full-stack web application inspired by Airbnb where users can explore property listings, create their own listings, leave reviews, and securely authenticate using traditional login and Google OAuth.
 
-The project demonstrates real-world backend architecture including authentication systems, authorization, session handling, cloud image storage, and database relationships.
+The project demonstrates real-world backend architecture including authentication, authorization, session management, cloud image storage, database relationships, MVC architecture, and secure route protection.
 
 ---
 
-# 🚀 Live Demo
-
-🌐 Live Website
-https://wanderlust-tqzm.onrender.com/listings
-
-📂 GitHub Repository
-https://github.com/Amit-1424/Wanderlust-airbnb-clone
+📂 **GitHub Repository**
+https://github.com/Anant23-27
 
 ---
 
 # 📌 Project Overview
 
-**Wanderlust** is a full-stack property listing platform inspired by Airbnb.
+**StayEase** is a full-stack property listing platform inspired by Airbnb.
 
-Users can browse travel destinations, create their own property listings, upload images, and share experiences through reviews. The platform includes secure authentication systems and proper authorization checks to ensure that only permitted users can modify listings and reviews.
+The application allows users to discover and explore properties, create their own property listings, upload property images, and share their experiences through reviews.
 
-This project was built to understand how real production web applications work internally — including session management, OAuth authentication, secure route protection, and MVC architecture.
+The platform implements secure authentication and authorization mechanisms to ensure that users can only perform actions they are permitted to perform.
+
+The project was developed to understand how real-world full-stack applications work internally, including:
+
+* User authentication
+* Google OAuth
+* Session-based authentication
+* Authorization and access control
+* CRUD operations
+* MongoDB relationships
+* Cloud-based image storage
+* MVC architecture
+* Server-side rendering
+* Error handling and validation
 
 ---
 
@@ -30,49 +38,56 @@ This project was built to understand how real production web applications work i
 
 ## 1. User Authentication System
 
-The application supports both traditional authentication and OAuth login.
+StayEase supports both traditional authentication and Google OAuth authentication.
 
 ### Local Authentication
 
-Users can sign up using a username and password.
+Users can create an account using a username and password.
 
-Features included:
+Features include:
 
-* Secure password hashing using **passport-local-mongoose**
-* Login and logout functionality
+* User signup
+* User login
+* User logout
+* Secure password hashing
 * Persistent login sessions
-* Session storage using **MongoDB**
+* Session storage using MongoDB
+
+Password authentication is handled using **Passport.js** and **passport-local-mongoose**.
 
 ### Google OAuth Authentication
 
-Users can also authenticate using their Google account.
+Users can also sign in using their Google account.
 
-Authentication flow:
+### Google OAuth Flow
 
 1. User clicks **Login with Google**
-2. User is redirected to Google OAuth
-3. Google verifies the user
-4. Google sends user data to the callback route
-5. Passport creates or finds the user
-6. Session is created and user is logged in
+2. User is redirected to Google's authentication page
+3. Google authenticates the user
+4. Google sends the authentication response to the application's callback route
+5. Passport verifies the user
+6. The application creates or finds the corresponding user
+7. A session is created
+8. The user is logged into StayEase
 
 ---
 
-## 2. Listings Management
+# 🏠 2. Property Listing Management
 
-Users can explore travel destinations and create their own listings.
+StayEase allows users to explore existing properties and create their own listings.
 
 ### Listing Features
 
 Users can:
 
+* View all available properties
+* View individual property details
 * Create new property listings
-* View all available listings
-* View detailed listing pages
 * Edit their own listings
 * Delete their own listings
+* Upload property images
 
-Each listing includes:
+Each listing contains information such as:
 
 * Title
 * Description
@@ -85,124 +100,169 @@ Listings are stored in **MongoDB** and associated with the user who created them
 
 ---
 
-## 3. Review System
+# ⭐ 3. Review & Rating System
 
-Users can leave reviews on listings.
+Users can share their experience by reviewing properties.
 
 Review functionality includes:
 
-* Add review to a listing
-* View reviews on listing page
-* Delete own reviews
+* Add reviews
+* Give ratings
+* Add comments
+* View reviews on property pages
+* Delete their own reviews
 
-Each review includes:
+Each review maintains relationships with:
 
-* Rating
-* Comment
-* Author
+* The property/listing
+* The user who created the review
 
-Reviews are linked to both:
-
-* The **listing**
-* The **user who created the review**
+This demonstrates the use of relationships between MongoDB documents using **Mongoose references**.
 
 ---
 
-## 4. Authorization & Access Control
+# 🔐 4. Authorization & Access Control
 
-Proper authorization checks are implemented to protect resources.
+StayEase implements authorization middleware to protect resources.
+
+Authentication answers:
+
+> **"Who is the user?"**
+
+Authorization answers:
+
+> **"Is this user allowed to perform this action?"**
 
 ### Listing Authorization
 
-Only the **owner of a listing** can:
+Only the owner of a listing can:
 
 * Edit the listing
 * Delete the listing
 
 ### Review Authorization
 
-Only the **author of a review** can:
+Only the author of a review can:
 
 * Delete their review
 
-These checks prevent unauthorized actions and protect user data.
+This prevents unauthorized users from modifying or deleting resources belonging to other users.
 
 ---
 
-## 5. Image Upload System
+# 🖼 5. Image Upload & Cloud Storage
 
-Users can upload images while creating listings.
+StayEase allows users to upload images when creating property listings.
 
-Images are handled using:
+The application uses:
 
-* **Multer** for file upload handling
-* **Cloudinary** for cloud image storage
+* **Multer** → handles file uploads
+* **Cloudinary** → stores images in the cloud
+* **multer-storage-cloudinary** → connects Multer with Cloudinary
 
-This allows images to be stored externally rather than locally.
+Instead of storing images directly on the application server, images are uploaded to cloud storage.
 
----
-
-## 6. Flash Messages
-
-The project uses **connect-flash** to provide feedback messages such as:
-
-* Login success
-* Signup success
-* Authorization errors
-* Listing creation updates
+This makes the application more suitable for deployment and scalable web applications.
 
 ---
 
-## 7. Error Handling System
+# 💬 6. Flash Messages
 
-A centralized error handling system is implemented using:
+StayEase uses **connect-flash** to provide temporary feedback messages to users.
 
-* Custom **ExpressError class**
-* **wrapAsync utility**
+Examples include:
 
-This ensures that asynchronous route errors are properly handled.
+* Login successful
+* Signup successful
+* Listing created successfully
+* Listing updated successfully
+* Listing deleted
+* Unauthorized access
+* Review-related notifications
+
+These messages improve the user experience by providing immediate feedback after an action.
+
+---
+
+# ⚠️ 7. Error Handling
+
+The application includes centralized error handling.
+
+### ExpressError
+
+A custom `ExpressError` class is used to create structured application errors.
+
+### wrapAsync
+
+A `wrapAsync` utility is used to handle errors from asynchronous Express route handlers.
+
+This helps avoid repetitive `try/catch` blocks and ensures errors are passed to the centralized Express error-handling middleware.
 
 ---
 
 # 🏗 Project Architecture
 
-The project follows the **MVC (Model-View-Controller)** pattern.
+StayEase follows the **MVC (Model-View-Controller)** architecture.
 
-### Models
-
-Located in `/models`
-
-Responsible for defining database schemas.
-
-Models used:
-
-* `User`
-* `Listing`
-* `Review`
+This separates database models, application/business logic, routes, and presentation.
 
 ---
 
-### Controllers
+## 📦 Models
 
-Located in `/controllers`
+Located inside:
 
-Controllers contain business logic for:
+```text
+/models
+```
+
+Models define the structure of the application's database documents.
+
+### User
+
+Stores user-related information and authentication data.
+
+### Listing
+
+Stores property information and its relationship with the property owner.
+
+### Review
+
+Stores review information and references both the listing and the user.
+
+---
+
+## 🎮 Controllers
+
+Located inside:
+
+```text
+/controllers
+```
+
+Controllers contain the main application/business logic.
+
+They handle operations related to:
 
 * Listings
 * Reviews
 * Users
 
-This keeps route files clean and modular.
+This keeps the route files cleaner and separates routing from business logic.
 
 ---
 
-### Routes
+## 🛣 Routes
 
-Located in `/routes`
+Located inside:
 
-Routes handle incoming requests and connect them to controllers.
+```text
+/routes
+```
 
-Routes implemented:
+Routes define the application's endpoints and connect incoming requests with the appropriate controller functions.
+
+Major route groups include:
 
 * Listing routes
 * Review routes
@@ -211,18 +271,27 @@ Routes implemented:
 
 ---
 
-### Views
+## 🖥 Views
 
-Located in `/views`
+Located inside:
 
-Frontend is rendered using **EJS templates**.
+```text
+/views
+```
 
-View structure includes:
+StayEase uses **EJS** for server-side rendering.
 
-* Layouts
-* Partials
+The view layer contains:
+
 * Listing pages
+* Listing creation forms
+* Listing editing forms
 * Authentication pages
+* Review sections
+* Layouts
+* Reusable partials
+
+**EJS Mate** is used to simplify layout and reusable view structures.
 
 ---
 
@@ -230,113 +299,205 @@ View structure includes:
 
 ## Backend
 
-* **Node.js**
-* **Express.js**
+### Node.js
 
-Used to build the server and REST routes.
+Used as the JavaScript runtime for executing the server-side application.
 
----
+### Express.js
 
-## Database
-
-* **MongoDB**
-* **Mongoose**
-
-Used to store users, listings, and reviews.
+Used to build the web server, routes, middleware, and REST-style endpoints.
 
 ---
 
-## Authentication
+## 🗄 Database
 
-Authentication is implemented using:
+### MongoDB
 
-* **Passport.js**
-* **passport-local**
-* **passport-local-mongoose**
-* **passport-google-oauth20**
+Used as the application's NoSQL database.
 
-These handle both local login and Google OAuth login.
+MongoDB stores:
 
----
+* Users
+* Listings
+* Reviews
+* Relationships between these entities
 
-## Session Management
+### Mongoose
 
-Sessions are implemented using:
+Used as an ODM (Object Data Modeling) library for MongoDB.
 
-* **express-session**
-* **connect-mongo**
+Mongoose provides:
 
-Sessions are stored in MongoDB for persistence.
-
----
-
-## Image Storage
-
-Images are uploaded and stored using:
-
-* **Multer**
-* **Cloudinary**
-* **multer-storage-cloudinary**
+* Schemas
+* Models
+* Validation
+* Database relationships
+* Querying MongoDB
 
 ---
 
-## Frontend
+# 🔑 Authentication
+
+Authentication is implemented using **Passport.js**.
+
+Libraries used include:
+
+* `passport`
+* `passport-local`
+* `passport-local-mongoose`
+* `passport-google-oauth20`
+
+The application supports:
+
+1. Username/password authentication
+2. Google OAuth authentication
+
+---
+
+# 🔄 Session Management
+
+StayEase uses:
+
+* `express-session`
+* `connect-mongo`
+
+Sessions allow the application to remember authenticated users across requests.
+
+Instead of keeping session data only in server memory, sessions are stored in MongoDB.
+
+This makes session management more suitable for a deployed application.
+
+---
+
+# ☁️ Image Storage
+
+StayEase uses **Cloudinary** for storing property images.
+
+Technologies used:
+
+* Multer
+* Cloudinary
+* multer-storage-cloudinary
+
+The flow is:
+
+```text
+User
+  ↓
+Upload Image
+  ↓
+Multer
+  ↓
+Cloudinary
+  ↓
+Image URL
+  ↓
+MongoDB Listing
+```
+
+The listing stores the image information/URL instead of storing the actual image file inside the project.
+
+---
+
+# 🎨 Frontend
 
 The frontend uses:
 
-* **EJS**
-* **EJS Mate (Layouts support)**
-* **CSS**
-* **JavaScript**
+* EJS
+* EJS Mate
+* HTML
+* CSS
+* JavaScript
+
+EJS allows dynamic server-side rendering of property and user information.
 
 ---
 
-## Other Libraries
+# 🧰 Other Libraries
 
-Additional libraries used:
+StayEase also uses several supporting libraries:
 
-* **Joi** → schema validation
-* **method-override** → support PUT/DELETE
-* **connect-flash** → flash messages
-* **dotenv** → environment variables
-* **cookie-parser**
-* **nodemailer** → email services
-
----
-
-# 🔐 Authentication & Authorization
-
-## User Authentication
-
-Users can authenticate using:
-
-1. Username + password
-2. Google OAuth login
-
-Passport handles user sessions and authentication strategies.
+| Library         | Purpose                                     |
+| --------------- | ------------------------------------------- |
+| Joi             | Server-side schema validation               |
+| method-override | Enables PUT/DELETE requests from HTML forms |
+| connect-flash   | Temporary success/error messages            |
+| dotenv          | Environment variable management             |
+| cookie-parser   | Cookie parsing                              |
+| nodemailer      | Email-related functionality                 |
 
 ---
 
-## Authorization
+# 🔐 Authentication & Authorization Flow
 
-Authorization middleware ensures secure operations.
+## Authentication Flow
 
-Checks include:
+For local authentication:
 
-### Listing Protection
+```text
+User
+ ↓
+Signup/Login
+ ↓
+Passport
+ ↓
+Verify Credentials
+ ↓
+Create Session
+ ↓
+User Authenticated
+```
 
-* Only listing owner can edit/delete listings
+For Google authentication:
 
-### Review Protection
+```text
+User
+ ↓
+Login with Google
+ ↓
+Google OAuth
+ ↓
+Google Authentication
+ ↓
+OAuth Callback
+ ↓
+Passport
+ ↓
+Find/Create User
+ ↓
+Create Session
+ ↓
+User Logged In
+```
 
-* Only review author can delete review
+---
+
+# 🛡 Authorization Flow
+
+When a user attempts to modify a listing:
+
+```text
+User Request
+     ↓
+Authentication Check
+     ↓
+Is User Logged In?
+     ↓
+Ownership Check
+     ↓
+Is User the Listing Owner?
+     ↓
+Allow / Deny Request
+```
+
+This ensures that authentication alone is not enough to modify protected resources.
 
 ---
 
 # 📂 Project Folder Structure
 
-```
-Wanderlust
+```text
+StayEase
 │
 ├── config
 │   ├── db.js
@@ -377,16 +538,19 @@ Wanderlust
 ├── middleware.js
 ├── cloudConfig.js
 ├── app.js
+├── package.json
+└── .env
 ```
 
 ---
 
-# ⚙ Environment Variables
+# ⚙️ Environment Variables
 
-Create a `.env` file with the following variables:
+Create a `.env` file and configure the required environment variables:
 
-```
+```env
 MONGO_URI=
+
 SESSION_SECRET=
 
 CLOUDINARY_CLOUD_NAME=
@@ -400,82 +564,128 @@ EMAIL_USER=
 EMAIL_PASS=
 ```
 
----
-
-# 📦 Installation
-
-Clone the repository
-
-```
-git clone https://github.com/Amit-1424/Wanderlust-airbnb-clone
-```
-
-Move into project folder
-
-```
-cd Wanderlust-airbnb-clone
-```
-
-Install dependencies
-
-```
-npm install
-```
-
-Run the application
-
-```
-node app.js
-```
+> Environment variables contain sensitive credentials and should never be committed to GitHub.
 
 ---
 
 # 🔮 Future Improvements
 
-Planned improvements for the project include:
+Potential future improvements for StayEase include:
 
-### Multiple Image Upload
+### 🖼 Multiple Image Upload
 
-Allow users to upload multiple images per listing and create an image gallery.
+Allow property owners to upload multiple images for a single listing.
 
-### Contact Property Owner
+### 🗺 Map Integration
 
-Allow users to contact listing owners directly.
+Integrate a map service to display the geographical location of properties.
 
-### Map Integration
+### 🖼 Image Gallery
 
-Integrate map services to display listing locations.
+Add an interactive image gallery with next/previous navigation.
 
-### Image Gallery Viewer
+### 💬 Contact Property Owner
 
-Add a modal image viewer with next/previous navigation.
+Allow users to directly communicate with property owners.
+
+### 🔎 Advanced Search & Filtering
+
+Add filters for:
+
+* Price
+* Location
+* Property type
+* Rating
+* Availability
+
+### 📅 Booking System
+
+Introduce property availability and booking functionality.
+
+### 💳 Payment Integration
+
+Integrate a payment gateway to allow users to securely pay for reservations.
 
 ---
 
 # 📚 What I Learned
 
-While building this project I learned:
+Through the development of StayEase, I gained practical understanding of:
 
-* Full stack application architecture
-* Passport authentication flows
-* Google OAuth implementation
-* Session based authentication
-* Cloud image storage
-* Secure authorization patterns
-* MVC backend architecture
+* Full-stack web application architecture
+* Node.js and Express.js
+* MongoDB and Mongoose
+* MVC architecture
+* CRUD operations
+* User authentication
+* Passport.js
+* Google OAuth
+* Session-based authentication
+* Authorization middleware
+* Cloudinary image storage
+* File uploads using Multer
+* Server-side validation
+* Error handling in Express
+* MongoDB document relationships
+* EJS server-side rendering
+* Deployment of full-stack applications
+* Environment variable management
+
+---
+
+# 🎯 Key Technical Concepts Demonstrated
+
+StayEase demonstrates several concepts commonly used in real-world web applications:
+
+**Authentication**
+
+```text
+Passport.js + Local Authentication + Google OAuth
+```
+
+**Authorization**
+
+```text
+Authentication + Ownership Verification
+```
+
+**Database Relationships**
+
+```text
+User
+ ↓
+Listing
+ ↓
+Review
+```
+
+**Cloud Storage**
+
+```text
+Multer → Cloudinary → Listing
+```
+
+**Architecture**
+
+```text
+Routes → Controllers → Models → MongoDB
+                 ↓
+               Views
+```
 
 ---
 
 # 👨‍💻 Author
 
-Amit Agarwal
-CSE Student — KIIT University
+Anant Nigam
 
-GitHub
-https://github.com/Amit-1424
+CSE Student
+
+GitHub:
+https://github.com/Anant23-27
 
 ---
 
 # ⭐ Support
 
-If you found this project useful, please consider giving it a **star ⭐ on GitHub**.
+If you found **StayEase** useful or interesting, consider giving the project a ⭐ on GitHub.

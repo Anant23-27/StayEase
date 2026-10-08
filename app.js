@@ -18,7 +18,7 @@ const MongoStore = require("connect-mongo").default;
 
 
 // DB
-require("./config/db");
+require("./db_config/db");
 
 // Passport config
 require("./config/passport");
