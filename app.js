@@ -21,8 +21,8 @@ const MongoStore = require("connect-mongo").default;
 require("./db_config/db");
 
 // Passport config
-require("./config/passport");
-require("./config/passportGoogle");
+require("./db_config/passport");
+require("./db_config/passportGoogle");
 
 // Routes
 const listingsRouter = require("./routes/listing");
